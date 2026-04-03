@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './styles/travel.css'
 import { BottomNav } from './components/BottomNav'
+import { ImagePreviewProvider } from './components/ImagePreview'
 import { parseRoute, type Route } from './app/router'
 import { TripListPage } from './app/pages/TripListPage'
 import { TripDetailPage } from './app/pages/TripDetailPage'
@@ -18,12 +19,14 @@ export default function App() {
   const currentTripId = route.name === 'trip' ? route.tripId : undefined
 
   return (
-    <div className="appShell">
-      {route.name === 'list' ? <TripListPage /> : null}
-      {route.name === 'trip' ? <TripDetailPage tripId={route.tripId} /> : null}
-      {route.name === 'my' ? <MyPage /> : null}
+    <ImagePreviewProvider>
+      <div className="appShell">
+        {route.name === 'list' ? <TripListPage /> : null}
+        {route.name === 'trip' ? <TripDetailPage tripId={route.tripId} /> : null}
+        {route.name === 'my' ? <MyPage /> : null}
 
-      <BottomNav route={route} currentTripId={currentTripId} />
-    </div>
+        <BottomNav route={route} currentTripId={currentTripId} />
+      </div>
+    </ImagePreviewProvider>
   )
 }

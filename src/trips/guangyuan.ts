@@ -34,6 +34,9 @@ const guangyuanTrip: TripConfig = {
               to: '广元',
               toTime: '~21:30',
             },
+            outboundNote: '周五晚出发',
+            returnNote: '周日返程',
+            returnRoute: '广元 → 西安北',
             returnOptions: [
               { num: 'G2208',      time: '15:25', note: '下午早班，时间略紧' },
               { num: 'G1840/1841', time: '16:46', note: '中间选项，较宽裕' },
@@ -52,6 +55,7 @@ const guangyuanTrip: TripConfig = {
                 title: '广元希尔顿欢朋酒店',
                 desc: '品牌连锁，服务稳定，广元高档酒店榜 No.1',
                 mapKeyword: '广元希尔顿欢朋酒店',
+                xhsKeyword: '广元希尔顿欢朋酒店',
                 image: IMG.hilton,
               },
               {
@@ -66,6 +70,7 @@ const guangyuanTrip: TripConfig = {
                 title: '旧静度假酒店',
                 desc: '环境安静，适合放松型旅行，距广元站约 18 分钟',
                 mapKeyword: '旧静度假酒店广元',
+                xhsKeyword: '广元旧静度假酒店',
                 image: IMG.jiujing,
               },
             ],

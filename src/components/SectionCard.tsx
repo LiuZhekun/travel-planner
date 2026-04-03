@@ -6,6 +6,7 @@ import {
   resolveAmapNavHref,
   resolveXhsSearchHref,
 } from '../externalLinks'
+import { useImagePreview } from './ImagePreview'
 
 // ── 时间轴圆点颜色 ──
 const dotColor: Record<string, string> = {
@@ -15,16 +16,24 @@ const dotColor: Record<string, string> = {
   night:     '#5856D6',
 }
 
-// ── 图片缩略图（带懒加载 + 圆角） ──
+// ── 图片缩略图（可点击全屏预览） ──
 function ImgThumb({ src, alt }: { src: string; alt: string }) {
+  const { openPreview } = useImagePreview()
   return (
-    <img
-      className="itemThumb"
-      src={src}
-      alt={alt}
-      loading="lazy"
-      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-    />
+    <button
+      type="button"
+      className="itemThumbBtn"
+      onClick={() => openPreview(src, alt)}
+      aria-label={`放大查看：${alt}`}
+    >
+      <img
+        className="itemThumb"
+        src={src}
+        alt={alt}
+        loading="lazy"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+      />
+    </button>
   )
 }
 
@@ -122,37 +131,66 @@ function CardsSection({ content }: { content: CardsContent }) {
 
 // ── 交通卡片区块 ──
 function TransportSection({ content }: { content: TransportContent }) {
-  const { outbound, returnOptions } = content
+  const { outbound, returnOptions, outboundNote, returnNote, returnRoute: returnRouteRaw } = content
+  const outboundTitle = `${outbound.from} → ${outbound.to}`
+  const returnRoute = returnRouteRaw ?? `${outbound.to} → ${outbound.from}`
+
   return (
     <div className="transportRoot">
-      <div className="trainHero">
-        <div className="trainNum">{outbound.num}</div>
-        <div className="trainRoute">
-          <div className="trainStation">
-            <div className="stName">{outbound.from}</div>
-            <div className="stTime">{outbound.fromTime}</div>
+      <section className="transportBlock transportBlock--out" aria-label="往程">
+        <header className="transportBlockHead">
+          <span className="transportPill transportPill--out">往</span>
+          <div className="transportBlockHeadText">
+            <div className="transportBlockTitle">去程 · 前往 {outbound.to}</div>
+            <div className="transportBlockSub">{outboundTitle}{outboundNote ? ` · ${outboundNote}` : ''}</div>
           </div>
-          <div className="trainArrow">→</div>
-          <div className="trainStation" style={{ textAlign: 'right' }}>
-            <div className="stName">{outbound.to}</div>
-            <div className="stTime">{outbound.toTime}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="returnLabel">返程选择（三选一）</div>
-      <div className="returnList">
-        {returnOptions.map((opt) => (
-          <div key={opt.num} className={`returnRow ${opt.recommended ? 'recommended' : ''}`}>
-            <div className="returnTag">{opt.num}</div>
-            <div className="returnTime">{opt.time}</div>
-            <div className="returnNote">
-              {opt.recommended && <span className="recBadge">推荐</span>}
-              {opt.note}
+        </header>
+        <div className="trainHero">
+          <div className="trainNum">{outbound.num}</div>
+          <div className="trainRoute">
+            <div className="trainStation">
+              <div className="stName">{outbound.from}</div>
+              <div className="stTime">{outbound.fromTime}</div>
+            </div>
+            <div className="trainArrow">→</div>
+            <div className="trainStation" style={{ textAlign: 'right' }}>
+              <div className="stName">{outbound.to}</div>
+              <div className="stTime">{outbound.toTime}</div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
+
+      <section className="transportBlock transportBlock--return" aria-label="返程">
+        <header className="transportBlockHead">
+          <span className="transportPill transportPill--return">返</span>
+          <div className="transportBlockHeadText">
+            <div className="transportBlockTitle">返程 · 离开 {outbound.to}</div>
+            <div className="transportBlockSub">
+              {returnRoute}
+              {returnNote ? ` · ${returnNote}` : ''}
+              {' · '}以下时间为<strong className="transportEm">广元站发车</strong>，任选其一
+            </div>
+          </div>
+        </header>
+        <div className="returnList">
+          <div className="returnListHeader" aria-hidden>
+            <span>车次</span>
+            <span>发车</span>
+            <span>说明</span>
+          </div>
+          {returnOptions.map((opt) => (
+            <div key={opt.num} className={`returnRow ${opt.recommended ? 'recommended' : ''}`}>
+              <div className="returnTag">{opt.num}</div>
+              <div className="returnTime">{opt.time}</div>
+              <div className="returnNote">
+                {opt.recommended && <span className="recBadge">推荐</span>}
+                {opt.note}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

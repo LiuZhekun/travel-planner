@@ -49,6 +49,12 @@ export type ReturnOption = {
 export type TransportContent = {
   outbound: TrainLeg;
   returnOptions: ReturnOption[];
+  /** 往程补充说明，如「周五晚出发」 */
+  outboundNote?: string;
+  /** 返程说明，如「周日返程」 */
+  returnNote?: string;
+  /** 返程线路文案；省略时为「去程终点 → 去程起点」 */
+  returnRoute?: string;
 };
 
 export type TripMeta = {
