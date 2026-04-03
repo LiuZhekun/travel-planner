@@ -1,9 +1,11 @@
 import type { TripConfig, TripMeta } from '../schema/trip'
 import demoTrip from './demo'
+import guangyuanTrip from './guangyuan'
 
-export const trips: TripMeta[] = [projectMeta(demoTrip)]
+export const trips: TripMeta[] = [projectMeta(guangyuanTrip), projectMeta(demoTrip)]
 
 export const tripConfigsById: Record<string, TripConfig> = {
+  [guangyuanTrip.id]: guangyuanTrip,
   [demoTrip.id]: demoTrip,
 }
 

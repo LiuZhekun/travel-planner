@@ -12,7 +12,7 @@ export function TripDetailPage(props: { tripId: string }) {
   const trip = getTripConfig(tripId)
 
   const fallbackKeywords = useMemo(() => {
-    return trip?.searchKeywords && trip.searchKeywords.length ? trip.searchKeywords : [trip?.title ?? '']
+    return trip?.searchKeywords?.length ? trip.searchKeywords : [trip?.title ?? '']
   }, [trip])
 
   const [keywordsText, setKeywordsText] = useState('')
@@ -25,22 +25,15 @@ export function TripDetailPage(props: { tripId: string }) {
 
   const tocItems: TocItem[] = useMemo(() => {
     if (!trip) return []
-    const items: TocItem[] = []
-    for (const day of trip.days) {
-      for (const sec of day.sections) {
-        items.push({ sectionId: sec.id, title: sec.title })
-      }
-    }
-    return items
+    return trip.days.flatMap((day) =>
+      day.sections.map((sec) => ({ sectionId: sec.id, title: sec.title }))
+    )
   }, [trip])
 
   if (!trip) {
     return (
       <div className="page">
-        <div className="topbar">
-          <h1 className="topbarTitle">旅行详情</h1>
-        </div>
-        <p>未找到该旅行配置：{tripId}</p>
+        <p className="subtle">未找到该旅行配置：{tripId}</p>
       </div>
     )
   }
@@ -62,67 +55,57 @@ export function TripDetailPage(props: { tripId: string }) {
   function saveKeywords() {
     if (!trip) return
     const arr = parseKeywords(keywordsText)
-    if (!arr.length) return
-    setTripKeywords(trip.id, arr)
+    if (arr.length) setTripKeywords(trip.id, arr)
   }
 
-  const query = useMemo(() => {
-    const arr = parseKeywords(keywordsText)
-    return arr.join(' ')
-  }, [keywordsText])
-
-  const urls = useMemo(() => buildShareUrls(query), [query])
+  const query = useMemo(() => parseKeywords(keywordsText).join(' '), [keywordsText])
+  const urls  = useMemo(() => buildShareUrls(query), [query])
 
   return (
-    <>
-      <div className="topbar">
-        <div className="detailHeader">
-          <div>
-            <h1 className="topbarTitle">{trip.title}</h1>
-            <div className="subtle" style={{ marginTop: 6 }}>
-              共 {trip.days.length} 天 · {tocItems.length} 个模块
-            </div>
-          </div>
-          <div className="subtle" style={{ textAlign: 'right' }}>
-            {trip.start ? <div>起：{trip.start}</div> : null}
-            {trip.end ? <div>止：{trip.end}</div> : null}
-          </div>
+    <div data-trip-id={trip.id}>
+      {/* 渐变 Hero Header */}
+      <div className="tripDetailHero">
+        <div className="tripDetailHeroTitle">{trip.title}</div>
+        <div className="tripDetailHeroMeta">
+          {trip.start && (
+            <span className="tripDetailHeroPill">
+              📅 {trip.start}{trip.end ? ` → ${trip.end}` : ''}
+            </span>
+          )}
         </div>
       </div>
 
+      {/* 吸顶 TOC */}
       <Toc items={tocItems} onJump={onJump} />
 
       <div className="page">
-        <div className="card tripCard">
+        {/* 关键词工具卡 */}
+        <div className="card tripToolCard">
           <div className="noteLabel" style={{ marginTop: 0 }}>
-            <span>地图/小红书/抖音跳转关键词（本地保存）</span>
-            <span className="subtle">逗号分隔</span>
+            <span>地图 / 小红书 / 抖音跳转关键词</span>
+            <span className="subtle">本地存储</span>
           </div>
           <input
             className="keywordsArea"
             value={keywordsText}
             onChange={(e) => setKeywordsText(e.target.value)}
             onBlur={saveKeywords}
-            placeholder="例如：广元 昭化 皇泽寺"
+            placeholder="例：广元 昭化 皇泽寺"
           />
           <div className="actionRow">
-            <a className="actionBtn" href={urls.map} target="_blank" rel="noreferrer">
-              地图
-            </a>
-            <a className="actionBtn" href={urls.xhs} target="_blank" rel="noreferrer">
-              小红书
-            </a>
-            <a className="actionBtn" href={urls.douyin} target="_blank" rel="noreferrer">
-              抖音
-            </a>
-          </div>
-          <div className="subtle" style={{ marginTop: 10, fontSize: 13 }}>
-            未做联网依赖：仅根据关键词生成跳转链接。
+            <a className="actionBtn" href={urls.map}    target="_blank" rel="noreferrer">🗺 地图</a>
+            <a className="actionBtn" href={urls.xhs}    target="_blank" rel="noreferrer">📕 小红书</a>
+            <a className="actionBtn" href={urls.douyin} target="_blank" rel="noreferrer">🎵 抖音</a>
           </div>
         </div>
 
-        {trip.days.map((day) => (
-          <section key={day.id} className="dayBlock">
+        {/* 按天渲染 */}
+        {trip.days.map((day, di) => (
+          <section
+            key={day.id}
+            className="dayBlock"
+            style={{ animationDelay: `${di * 0.07}s` }}
+          >
             <h2 className="dayTitle">{day.title}</h2>
             {day.sections.map((sec) => (
               <SectionCard key={sec.id} tripId={trip.id} section={sec} />
@@ -130,7 +113,6 @@ export function TripDetailPage(props: { tripId: string }) {
           </section>
         ))}
       </div>
-    </>
+    </div>
   )
 }
-

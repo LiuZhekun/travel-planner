@@ -6,53 +6,45 @@ export function MyPage() {
 
   return (
     <>
+      {/* 顶栏 */}
       <div className="topbar">
         <h1 className="topbarTitle">我的</h1>
       </div>
 
       <div className="page">
-        <div className="card tripCard">
-          <h2 className="tripCardTitle" style={{ marginBottom: 10 }}>
-            离线与本地备注
-          </h2>
+        <div className="card myCard">
+          <div className="myCardTitle">离线与本地备注</div>
 
-          <div className="subtle">
-            本应用不上传数据：备注保存在你当前浏览器的 <code>localStorage</code> 中。
-          </div>
+          <p className="subtle" style={{ lineHeight: 1.65, marginBottom: 12 }}>
+            本应用不上传数据：备注保存在浏览器的{' '}
+            <code>localStorage</code> 中，离线可用。
+          </p>
 
-          <div style={{ marginTop: 12 }}>
-            {lastTrip ? (
-              <div>
-                上次查看：<a href={`#/trip/${encodeURIComponent(lastTrip)}`}>{lastTrip}</a>
-              </div>
-            ) : (
-              <div className="subtle">尚未浏览任何旅行</div>
-            )}
-          </div>
+          {lastTrip ? (
+            <p style={{ fontSize: 14, marginBottom: 14 }}>
+              上次查看：
+              <a href={`#/trip/${encodeURIComponent(lastTrip)}`} style={{ fontWeight: 600 }}>
+                {lastTrip}
+              </a>
+            </p>
+          ) : (
+            <p className="subtle" style={{ marginBottom: 14 }}>尚未浏览任何旅行</p>
+          )}
 
-          <div style={{ marginTop: 16 }}>
-            <button
-              type="button"
-              onClick={() => {
+          <button
+            type="button"
+            className="dangerBtn"
+            onClick={() => {
+              if (window.confirm('确认清除本地所有备注数据？')) {
                 clearNotes()
                 window.location.hash = '#/'
-              }}
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                borderRadius: 12,
-                border: '1px solid var(--border)',
-                background: 'transparent',
-                color: 'var(--text-h)',
-                fontSize: 16,
-              }}
-            >
-              清除本地备注数据
-            </button>
-          </div>
+              }
+            }}
+          >
+            清除本地备注数据
+          </button>
         </div>
       </div>
     </>
   )
 }
-
