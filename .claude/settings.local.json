@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5173)",
+      "WebSearch",
+      "WebFetch(domain:xhslink.com)",
+      "WebFetch(domain:www.xiaohongshu.com)",
+      "WebFetch(domain:zhuanlan.zhihu.com)",
+      "WebFetch(domain:you.ctrip.com)",
+      "WebFetch(domain:www.maigoo.com)",
+      "WebFetch(domain:www.360doc.com)",
+      "WebFetch(domain:guangyuan.cncn.com)",
+      "WebFetch(domain:www.wenxiaobai.com)",
+      "WebFetch(domain:baike.baidu.com)"
+    ]
+  }
+}
