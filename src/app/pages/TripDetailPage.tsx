@@ -5,7 +5,7 @@ import { SectionCard } from '../../components/SectionCard'
 import { setLastViewed } from '../../storage/notes'
 import { getTripConfig } from '../../trips/registry'
 import { getTripKeywords, setTripKeywords } from '../../storage/keywords'
-import { buildShareUrls } from '../../utils/shareLinks'
+import { buildTripToolJumpHrefs, ExternalJumpLink } from '../../externalLinks'
 
 export function TripDetailPage(props: { tripId: string }) {
   const { tripId } = props
@@ -59,7 +59,7 @@ export function TripDetailPage(props: { tripId: string }) {
   }
 
   const query = useMemo(() => parseKeywords(keywordsText).join(' '), [keywordsText])
-  const urls  = useMemo(() => buildShareUrls(query), [query])
+  const urls = useMemo(() => buildTripToolJumpHrefs(query), [query])
 
   return (
     <div data-trip-id={trip.id}>
@@ -93,9 +93,15 @@ export function TripDetailPage(props: { tripId: string }) {
             placeholder="例：广元 昭化 皇泽寺"
           />
           <div className="actionRow">
-            <a className="actionBtn" href={urls.map}    target="_blank" rel="noreferrer">🗺 地图</a>
-            <a className="actionBtn" href={urls.xhs}    target="_blank" rel="noreferrer">📕 小红书</a>
-            <a className="actionBtn" href={urls.douyin} target="_blank" rel="noreferrer">🎵 抖音</a>
+            <ExternalJumpLink className="actionBtn" href={urls.map}>
+              🗺 地图
+            </ExternalJumpLink>
+            <ExternalJumpLink className="actionBtn" href={urls.xhs}>
+              📕 小红书
+            </ExternalJumpLink>
+            <ExternalJumpLink className="actionBtn" href={urls.douyin}>
+              🎵 抖音
+            </ExternalJumpLink>
           </div>
         </div>
 

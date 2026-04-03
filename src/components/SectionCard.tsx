@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import type { TripSection, ScheduleContent, CardsContent, TransportContent } from '../schema/trip'
 import { getSectionNote, setSectionNote } from '../storage/notes'
-import { amapNavUrl } from '../utils/shareLinks'
+import {
+  ExternalJumpLink,
+  resolveAmapNavHref,
+  resolveXhsSearchHref,
+} from '../externalLinks'
 
 // ── 时间轴圆点颜色 ──
 const dotColor: Record<string, string> = {
@@ -10,10 +14,6 @@ const dotColor: Record<string, string> = {
   transport: '#007AFF',
   night:     '#5856D6',
 }
-
-// 小红书搜索链接
-const xhsUrl = (kw: string) =>
-  `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(kw)}`
 
 // ── 图片缩略图（带懒加载 + 圆角） ──
 function ImgThumb({ src, alt }: { src: string; alt: string }) {
@@ -29,17 +29,19 @@ function ImgThumb({ src, alt }: { src: string; alt: string }) {
 }
 
 // ── 小红书参考按钮 ──
+function MapNavBtn({ keyword, city = '广元' }: { keyword: string; city?: string }) {
+  return (
+    <ExternalJumpLink className="mapBtn" href={resolveAmapNavHref(keyword, city)}>
+      导航
+    </ExternalJumpLink>
+  )
+}
+
 function XhsBtn({ keyword }: { keyword: string }) {
   return (
-    <a
-      className="xhsBtn"
-      href={xhsUrl(keyword)}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="小红书图片参考"
-    >
+    <ExternalJumpLink className="xhsBtn" href={resolveXhsSearchHref(keyword)} aria-label="小红书图片参考">
       📕 图片参考
-    </a>
+    </ExternalJumpLink>
   )
 }
 
@@ -75,16 +77,7 @@ function ScheduleSection({ content }: { content: ScheduleContent }) {
                   <XhsBtn keyword={item.xhsKeyword} />
                 )}
               </div>
-              {item.mapKeyword && (
-                <a
-                  className="mapBtn"
-                  href={amapNavUrl(item.mapKeyword)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  导航
-                </a>
-              )}
+              {item.mapKeyword && <MapNavBtn keyword={item.mapKeyword} />}
             </div>
           </div>
         </div>
@@ -110,16 +103,7 @@ function CardsSection({ content }: { content: CardsContent }) {
               {item.desc && <div className="cardsDesc">{item.desc}</div>}
               {/* 按钮行 */}
               <div className="cardsActions">
-                {item.mapKeyword && (
-                  <a
-                    className="mapBtn"
-                    href={amapNavUrl(item.mapKeyword)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    导航
-                  </a>
-                )}
+                {item.mapKeyword && <MapNavBtn keyword={item.mapKeyword} />}
                 {item.xhsKeyword && (
                   <XhsBtn keyword={item.xhsKeyword} />
                 )}
