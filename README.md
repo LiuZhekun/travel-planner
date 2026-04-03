@@ -4,14 +4,16 @@
 
 ## 1) 部署到 GitHub Pages
 
-1. 把本目录（或你选定用于 Pages 的目录）推送到 GitHub 仓库的 `main` 分支。
-2. 打开 GitHub：`Settings -> Pages`
-3. `Source` 选择 `Deploy from a branch`
-4. `Branch` 选择 `main`
-5. `Folder` 选择 `/ (root)`
-6. 等待几分钟获取地址：`https://你的用户名.github.io/仓库名/`
+使用仓库内的 **GitHub Actions** 自动执行 `npm run build` 并把 **`dist/`** 发布到 Pages（不要再用「从分支发布仓库根目录」，否则静态资源路径不对）。
 
-> 项目使用 hash 路由，避免 GitHub Pages 刷新 404 问题。
+1. 将本仓库推送到 GitHub，默认分支名为 **`main`**（若用其他分支名，请同步修改 `.github/workflows/deploy-github-pages.yml` 里的 `branches`）。
+2. 打开仓库：**Settings → Pages**。
+3. **Build and deployment** 里 **Source** 选 **GitHub Actions**（不要选 “Deploy from a branch”）。
+4. 在 **Actions** 页签确认工作流 **Deploy GitHub Pages** 已成功跑完；站点地址一般为：`https://<用户名>.github.io/<仓库名>/`。
+
+`vite.config.ts` 中已设置 `base: './'`，适配 `*.github.io/<仓库名>/` 子路径。项目使用 **hash 路由**，刷新不会出现 History 模式的 404。
+
+与 Netlify 使用同一套构建：`npm run build`，产物目录 `dist/`。
 
 ## 2) 本地开发与构建
 

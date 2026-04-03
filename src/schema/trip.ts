@@ -66,7 +66,7 @@ export type TripSection = {
   title: string;
   // This project focuses on "extensible UI scaffolding".
   // Concrete rendering can be refined later per section.kind.
-  kind?: 'text' | 'cards' | 'schedule' | 'custom';
+  kind?: 'text' | 'cards' | 'schedule' | 'transport' | 'custom';
   content?: unknown;
 };
 
