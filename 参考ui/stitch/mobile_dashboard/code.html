@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;family=Be_Vietnam_Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#dadddf",
+                    "on-primary-fixed-variant": "#4f1d00",
+                    "error-container": "#f95630",
+                    "surface": "#f5f6f7",
+                    "outline": "#757778",
+                    "on-surface": "#2c2f30",
+                    "on-primary-container": "#401600",
+                    "on-primary": "#fff0ea",
+                    "secondary-fixed-dim": "#aec2ff",
+                    "tertiary-dim": "#005d22",
+                    "on-secondary-fixed": "#002f7a",
+                    "on-tertiary-fixed-variant": "#006827",
+                    "on-secondary-fixed-variant": "#0049b5",
+                    "primary-container": "#ff7a2c",
+                    "on-tertiary": "#cfffce",
+                    "on-surface-variant": "#595c5d",
+                    "surface-dim": "#d1d5d7",
+                    "inverse-on-surface": "#9b9d9e",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#5cfd80",
+                    "surface-tint": "#9b3f00",
+                    "secondary-dim": "#0048b3",
+                    "primary-fixed-dim": "#f46800",
+                    "error-dim": "#b92902",
+                    "on-primary-fixed": "#000000",
+                    "on-background": "#2c2f30",
+                    "tertiary-container": "#5cfd80",
+                    "surface-container": "#e6e8ea",
+                    "surface-bright": "#f5f6f7",
+                    "on-error": "#ffefec",
+                    "on-error-container": "#520c00",
+                    "primary-fixed": "#ff7a2c",
+                    "on-tertiary-container": "#005d22",
+                    "surface-container-high": "#e0e3e4",
+                    "primary-dim": "#883700",
+                    "on-tertiary-fixed": "#004819",
+                    "inverse-primary": "#fd6c00",
+                    "background": "#f5f6f7",
+                    "primary": "#9b3f00",
+                    "secondary-container": "#c2d1ff",
+                    "tertiary": "#006a28",
+                    "on-secondary": "#f1f2ff",
+                    "on-secondary-container": "#0041a2",
+                    "secondary-fixed": "#c2d1ff",
+                    "outline-variant": "#abadae",
+                    "secondary": "#0053cc",
+                    "surface-variant": "#dadddf",
+                    "surface-container-low": "#eff1f2",
+                    "inverse-surface": "#0c0f10",
+                    "error": "#b02500",
+                    "tertiary-fixed-dim": "#4bee74"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Be Vietnam Pro"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-orange-600 hover:scale-110 transition-transform cursor-pointer" data-icon="menu">menu</span>
+<h1 class="text-xl font-black text-orange-600 italic font-['Plus_Jakarta_Sans'] tracking-tight">The Kinetic Nomad</h1>
+</div>
+<span class="material-symbols-outlined text-orange-600 hover:scale-110 transition-transform cursor-pointer" data-icon="cloud_done">cloud_done</span>
+</header>
+<main class="pt-20 px-6 space-y-8">
+<!-- Welcome Header -->
+<section class="mt-4">
+<h2 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface leading-tight">My Adventures</h2>
+<p class="text-on-surface-variant font-body mt-2">Ready for the next trail, nomad?</p>
+</section>
+<!-- Travel Portals (Bento Inspired Horizontal) -->
+<section>
+<div class="flex gap-3 overflow-x-auto no-scrollbar py-2 -mx-2 px-2">
+<button class="flex items-center gap-3 bg-surface-container-highest px-5 py-3 rounded-full flex-shrink-0 active:scale-95 transition-all">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="explore">explore</span>
+</div>
+<span class="font-label font-bold text-on-secondary-container">Amap</span>
+</button>
+<button class="flex items-center gap-3 bg-surface-container-highest px-5 py-3 rounded-full flex-shrink-0 active:scale-95 transition-all">
+<div class="w-8 h-8 rounded-full bg-error flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="favorite">favorite</span>
+</div>
+<span class="font-label font-bold text-on-secondary-container">RED</span>
+</button>
+<button class="flex items-center gap-3 bg-surface-container-highest px-5 py-3 rounded-full flex-shrink-0 active:scale-95 transition-all">
+<div class="w-8 h-8 rounded-full bg-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="bolt">bolt</span>
+</div>
+<span class="font-label font-bold text-on-secondary-container">Douyin</span>
+</button>
+</div>
+</section>
+<!-- Add New Trip Card -->
+<section>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-8 flex flex-col items-center justify-center text-center bg-surface-container-low cursor-pointer active:scale-95 transition-all">
+<div class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-4 shadow-[0_12px_32px_rgba(155,63,0,0.2)]">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" data-icon="add">add</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface">Start a New Journey</h3>
+<p class="text-on-surface-variant text-sm mt-1">Map out your next destination</p>
+</div>
+</section>
+<!-- Existing Trip Cards List -->
+<section class="space-y-6">
+<!-- Trip Card 1: Xiamen -->
+<article class="bg-surface-container-lowest rounded-lg overflow-hidden flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="vibrant street food stalls in Xiamen night market with neon lights and colorful local snacks in soft warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcbOVM_ANlDL-uAcWwM-djzWVLMDpmTbOmSvqZseYGpl2DVq3mVSnhWPl__R5K4KUt5AKTso1qLnz1Zoq8tesVmR1hvUJOtW-B4PFPXrwaYNRnwCh86GhvIh2G0cGwKjN38RCWv2tJxMm-Yl8ZR55KahZFy2BgKFgywSh7PqvUGcTA_HpsOnvt0KjA0-a_6enqQiB77oxHMZYpnVa3AbBV8yzdMOD8nBzvfB0Ck3uuqVh8r6tDgC-ICMq47MXcLWRdUIZxALSuqRvo"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold font-label tracking-wider uppercase">Upcoming</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline font-extrabold text-2xl text-on-surface">Xiamen 4-day Feast</h3>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="pin_drop">pin_drop</span> 8
+                        </div>
+</div>
+<p class="text-on-surface-variant font-body flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_month">calendar_month</span>
+                        Nov 12 - Nov 16, 2024
+                    </p>
+</div>
+</article>
+<!-- Trip Card 2: Yunnan -->
+<article class="bg-surface-container-lowest rounded-lg overflow-hidden flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="panoramic mountain road in Yunnan with snowy peaks in the distance and deep blue sky under bright sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCclRRfX8aX3l-yDM5B70I0SnNam80VCQW4p_pOotmvBCNWZvoGVLBt0sXKXTWJWX_pSWr17VQKxstCoTf-SzjM2ZPtWCuWJIwITfH5R9MTLTGTm9aMimBYFKhLdXFrvV647CRXgA4PHs2mPPWVbjrpBOyJzzI-CU3p88AXkcJICyCkD8nniCZTrTImxY66vbun851hNhxCmirVa4Ynk3R_sIC_n4JNkMtQMh1tvZQMLYloqOR51fvfQ-9ehxdP6Y-bgnOQHGy2xFBQ"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-xs font-bold font-label tracking-wider uppercase">Completed</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline font-extrabold text-2xl text-on-surface">Yunnan Road Trip</h3>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="pin_drop">pin_drop</span> 14
+                        </div>
+</div>
+<p class="text-on-surface-variant font-body flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_month">calendar_month</span>
+                        Sep 02 - Sep 15, 2024
+                    </p>
+</div>
+</article>
+<!-- Trip Card 3: Draft -->
+<article class="bg-surface-container-lowest rounded-lg overflow-hidden flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="relative h-48 w-full overflow-hidden bg-surface-container">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-outline-variant text-5xl" data-icon="photo_camera">photo_camera</span>
+</div>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold font-label tracking-wider uppercase">Draft</span>
+</div>
+</div>
+<div class="p-6 border-l-4 border-primary">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline font-extrabold text-2xl text-on-surface">Tokyo Neon Nights</h3>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="pin_drop">pin_drop</span> 0
+                        </div>
+</div>
+<p class="text-on-surface-variant font-body flex items-center gap-2 text-sm italic">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                        Last edited 2h ago
+                    </p>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-2 bg-slate-50/80 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-12px_32px_rgba(0,0,0,0.05)]">
+<button class="flex flex-col items-center justify-center bg-orange-100 text-orange-600 rounded-full px-5 py-2 active:scale-95 transition-all cubic-bezier(0.34,1.56,0.64,1)">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Be_Vietnam_Pro'] text-xs font-bold uppercase tracking-wider">Trips</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-400 px-5 py-2 hover:text-orange-500 transition-colors active:scale-95 transition-all cubic-bezier(0.34,1.56,0.64,1)">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span class="font-['Be_Vietnam_Pro'] text-xs font-bold uppercase tracking-wider">Timeline</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-400 px-5 py-2 hover:text-orange-500 transition-colors active:scale-95 transition-all cubic-bezier(0.34,1.56,0.64,1)">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Be_Vietnam_Pro'] text-xs font-bold uppercase tracking-wider">Search</span>
+</button>
+</nav>
+</body></html>
