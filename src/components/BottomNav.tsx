@@ -16,7 +16,10 @@ export function BottomNav(props: { route: Route; currentTripId?: string }) {
         const to =
           name === 'trip' ? (currentTripId ? tripHref(currentTripId) : listHref()) : href!
 
-        const active = activeName === name
+        const active =
+          name === 'trip'
+            ? activeName === 'trip' || activeName === 'expenses'
+            : activeName === name
 
         return (
           <a

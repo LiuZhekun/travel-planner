@@ -5,6 +5,7 @@ import { SectionCard } from '../../components/SectionCard'
 import { setLastViewed } from '../../storage/notes'
 import { getTripConfig } from '../../trips/registry'
 import { getTripKeywords, setTripKeywords } from '../../storage/keywords'
+import { expensesHref } from '../router'
 import { buildTripToolJumpHrefs, ExternalJumpLink } from '../../externalLinks'
 import { countScheduleStops } from '../../trips/stats'
 
@@ -103,7 +104,11 @@ export function TripDetailPage(props: { tripId: string }) {
               <span className="material-symbols-outlined">calendar_view_week</span>
               <span>{dayCount} 天</span>
             </div>
-            <div className="tripStatChip tripStatChip--pay">
+            <a href={expensesHref(cfg.id)} className="tripStatChip tripStatChip--pay tripStatChipLink">
+              <span className="material-symbols-outlined">payments</span>
+              <span>费用统计</span>
+            </a>
+            <div className="tripStatChip tripStatChip--route">
               <span className="material-symbols-outlined">edit_note</span>
               <span>离线备注</span>
             </div>

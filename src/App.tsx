@@ -6,6 +6,7 @@ import { ImagePreviewProvider } from './components/ImagePreview'
 import { parseRoute, type Route } from './app/router'
 import { TripListPage } from './app/pages/TripListPage'
 import { TripDetailPage } from './app/pages/TripDetailPage'
+import { ExpensesPage } from './app/pages/ExpensesPage'
 import { MyPage } from './app/pages/MyPage'
 
 export default function App() {
@@ -17,7 +18,8 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
-  const currentTripId = route.name === 'trip' ? route.tripId : undefined
+  const currentTripId =
+    route.name === 'trip' || route.name === 'expenses' ? route.tripId : undefined
 
   return (
     <ImagePreviewProvider>
@@ -26,6 +28,7 @@ export default function App() {
         <div className="appMain">
           {route.name === 'list' ? <TripListPage /> : null}
           {route.name === 'trip' ? <TripDetailPage tripId={route.tripId} /> : null}
+          {route.name === 'expenses' ? <ExpensesPage tripId={route.tripId} /> : null}
           {route.name === 'my' ? <MyPage /> : null}
         </div>
         <BottomNav route={route} currentTripId={currentTripId} />

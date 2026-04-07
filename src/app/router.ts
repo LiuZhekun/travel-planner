@@ -1,6 +1,7 @@
 export type Route =
   | { name: 'list' }
   | { name: 'trip'; tripId: string }
+  | { name: 'expenses'; tripId: string }
   | { name: 'my' }
 
 export function parseRoute(hash: string): Route {
@@ -10,7 +11,13 @@ export function parseRoute(hash: string): Route {
 
   if (path === '/' || path === '') return { name: 'list' }
   if (path.startsWith('/trip/')) {
-    const tripId = decodeURIComponent(path.slice('/trip/'.length)).trim()
+    const rest = path.slice('/trip/'.length)
+    const parts = rest.split('/').filter(Boolean)
+    if (parts.length >= 2 && parts[1] === 'expenses') {
+      const tripId = decodeURIComponent(parts[0]).trim()
+      if (tripId) return { name: 'expenses', tripId }
+    }
+    const tripId = decodeURIComponent(parts[0] ?? '').trim()
     if (tripId) return { name: 'trip', tripId }
   }
   if (path === '/my' || path.startsWith('/my/')) return { name: 'my' }
@@ -19,6 +26,10 @@ export function parseRoute(hash: string): Route {
 
 export function tripHref(tripId: string) {
   return `#/trip/${encodeURIComponent(tripId)}`
+}
+
+export function expensesHref(tripId: string) {
+  return `#/trip/${encodeURIComponent(tripId)}/expenses`
 }
 
 export function listHref() {
