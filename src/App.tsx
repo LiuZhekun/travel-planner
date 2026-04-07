@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './styles/travel.css'
+import { AppHeader } from './components/AppHeader'
 import { BottomNav } from './components/BottomNav'
 import { ImagePreviewProvider } from './components/ImagePreview'
 import { parseRoute, type Route } from './app/router'
@@ -21,10 +22,12 @@ export default function App() {
   return (
     <ImagePreviewProvider>
       <div className="appShell">
-        {route.name === 'list' ? <TripListPage /> : null}
-        {route.name === 'trip' ? <TripDetailPage tripId={route.tripId} /> : null}
-        {route.name === 'my' ? <MyPage /> : null}
-
+        <AppHeader />
+        <div className="appMain">
+          {route.name === 'list' ? <TripListPage /> : null}
+          {route.name === 'trip' ? <TripDetailPage tripId={route.tripId} /> : null}
+          {route.name === 'my' ? <MyPage /> : null}
+        </div>
         <BottomNav route={route} currentTripId={currentTripId} />
       </div>
     </ImagePreviewProvider>

@@ -1,9 +1,9 @@
 import { listHref, myHref, tripHref, type Route } from '../app/router'
 
 const NAV_ITEMS = [
-  { name: 'list' as const, icon: '🗺', label: '行程', href: listHref() },
-  { name: 'trip' as const, icon: '📅', label: '详情', href: null },   // href 动态
-  { name: 'my'   as const, icon: '👤', label: '我的', href: myHref() },
+  { name: 'list' as const, icon: 'explore', label: '行程', href: listHref() },
+  { name: 'trip' as const, icon: 'timeline', label: '时间线', href: null as string | null },
+  { name: 'my' as const, icon: 'person', label: '我的', href: myHref() },
 ]
 
 export function BottomNav(props: { route: Route; currentTripId?: string }) {
@@ -13,20 +13,22 @@ export function BottomNav(props: { route: Route; currentTripId?: string }) {
   return (
     <nav className="bottomNav" aria-label="底部导航">
       {NAV_ITEMS.map(({ name, icon, label, href }) => {
-        // 详情 tab 指向当前行程，没有则跳列表
-        const to = name === 'trip'
-          ? (currentTripId ? tripHref(currentTripId) : listHref())
-          : href!
+        const to =
+          name === 'trip' ? (currentTripId ? tripHref(currentTripId) : listHref()) : href!
+
+        const active = activeName === name
 
         return (
           <a
             key={name}
-            className={`navBtn ${activeName === name ? 'active' : ''}`}
+            className={`navBtn ${active ? 'active' : ''}`}
             href={to}
             aria-label={label}
+            aria-current={active ? 'page' : undefined}
           >
-            {/* 图标带弹跳动效 */}
-            <span className="navIcon">{icon}</span>
+            <span className="material-symbols-outlined" aria-hidden>
+              {icon}
+            </span>
             <span>{label}</span>
           </a>
         )

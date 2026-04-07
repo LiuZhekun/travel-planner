@@ -1,10 +1,10 @@
 {
-  "name": "Travel Planner",
-  "short_name": "Travel",
+  "name": "旅行计划",
+  "short_name": "旅行计划",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#f5f6f7",
+  "theme_color": "#9b3f00",
   "orientation": "portrait",
   "lang": "zh-CN",
   "icons": [

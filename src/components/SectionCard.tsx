@@ -8,12 +8,12 @@ import {
 } from '../externalLinks'
 import { useImagePreview } from './ImagePreview'
 
-// ── 时间轴圆点颜色 ──
+// ── 时间轴圆点颜色（Kinetic Nomad 令牌）──
 const dotColor: Record<string, string> = {
-  sight:     'var(--accent)',
-  meal:      '#FF9500',
-  transport: '#007AFF',
-  night:     '#5856D6',
+  sight:     'var(--color-primary)',
+  meal:      'var(--color-primary-container)',
+  transport: 'var(--color-secondary)',
+  night:     'var(--color-tertiary)',
 }
 
 // ── 图片缩略图（可点击全屏预览） ──

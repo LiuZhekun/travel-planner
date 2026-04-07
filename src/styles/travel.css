@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════
-   travel.css — 旅行规划 UI 组件样式
+   travel.css — The Kinetic Nomad（参考 参考ui/stitch）
    ════════════════════════════════════════════════════ */
 
 /* ── 整体骨架 ── */
@@ -7,33 +7,96 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  background: var(--bg);
+  background: var(--surface);
+}
+
+.appMain {
+  flex: 1;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  padding-top: 56px;
 }
 
 .page {
   flex: 1;
-  padding: 16px 16px 100px;
+  padding: 8px 18px 104px;
 }
 
-/* ════ 顶栏 ════ */
-.topbar {
-  position: sticky;
+/* ════ 固定顶栏 ════ */
+.appTopBar {
+  position: fixed;
   top: 0;
-  z-index: 40;
-  padding: 14px 18px 12px;
-  background: var(--glass);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: .5px solid var(--border);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 12px max(18px, env(safe-area-inset-right)) 10px max(18px, env(safe-area-inset-left));
+  padding-top: max(12px, env(safe-area-inset-top));
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: saturate(160%) blur(24px);
+  -webkit-backdrop-filter: saturate(160%) blur(24px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--outline-variant) 10%, transparent);
+}
+
+.appTopBarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.appTopBarBrand {
+  flex: 1;
+  text-align: center;
+  font-family: var(--headline);
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.appTopBarIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-primary);
+  transition: transform 0.2s var(--spring);
+}
+
+.appTopBarIconBtn:active {
+  transform: scale(0.92);
+}
+
+.appTopBarIconBtn .material-symbols-outlined {
+  font-size: 26px;
+}
+
+.appTopBarIconBtn--static {
+  pointer-events: none;
+}
+
+/* ════ 我的页顶栏（与全局顶栏叠用时的内页标题）════ */
+.topbar {
+  padding: 8px 0 16px;
+  background: transparent;
 }
 
 .topbarTitle {
-  font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-h);
+  font-family: var(--headline);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--on-surface);
   margin: 0;
-  letter-spacing: -.3px;
+  letter-spacing: -0.02em;
 }
 
 .subtle {
@@ -48,156 +111,317 @@
   gap: 12px;
 }
 
-/* ════ 通用卡片 ════ */
+/* ════ 通用卡片（无硬边框，靠表面层级）════ */
 .card {
-  background: var(--card);
-  border-radius: var(--r-md);
-  border: .5px solid var(--border);
+  background: var(--surface-container-lowest);
+  border-radius: var(--r-lg);
+  border: none;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
-/* ════ 列表页 ════ */
+/* ════ 列表页 Hero ════ */
 .listHero {
-  padding: 24px 18px 14px;
-  animation: fadeIn .5s var(--ease-out) both;
+  padding: 12px 0 20px;
+  animation: fadeIn 0.5s var(--ease-out) both;
 }
 
 .listHeroGreeting {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text-lt);
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  margin-bottom: 4px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  margin-bottom: 6px;
 }
 
 .listHeroTitle {
-  font-family: var(--serif);
-  font-size: 30px;
+  font-family: var(--headline);
+  font-size: clamp(1.85rem, 6vw, 2.35rem);
+  font-weight: 800;
+  color: var(--on-surface);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* ── 横向 Portal 条 ── */
+.portalScroller {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 8px 0 16px;
+  margin: 0 -4px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.portalScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.portalChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--surface-container-highest);
+  text-decoration: none;
+  color: var(--color-on-secondary-container);
+  font-size: 13px;
   font-weight: 700;
-  color: var(--text-h);
-  letter-spacing: -.5px;
+  font-family: var(--sans);
+  transition: transform 0.2s var(--spring);
+}
+
+.portalChip:active {
+  transform: scale(0.95);
+}
+
+.portalChipIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.portalChipIcon .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.portalChipIcon--map {
+  background: var(--color-secondary);
+}
+.portalChipIcon--xhs {
+  background: var(--color-error);
+}
+.portalChipIcon--douyin {
+  background: var(--on-surface);
+}
+
+/* ── 新建行程（虚线占位）── */
+.addJourneyCard {
+  margin-bottom: 22px;
+  padding: 28px 20px;
+  border-radius: var(--r-md);
+  background: var(--surface-container-low);
+  outline: 2px dashed color-mix(in srgb, var(--outline-variant) 45%, transparent);
+  outline-offset: -2px;
+  text-align: center;
+  cursor: default;
+  transition: transform 0.2s var(--spring);
+}
+
+.addJourneyIcon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+  color: var(--color-on-primary);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-primary) 28%, transparent);
+}
+
+.addJourneyIcon .material-symbols-outlined {
+  font-size: 32px;
+}
+
+.addJourneyTitle {
+  font-family: var(--headline);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.addJourneySub {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  margin-top: 4px;
 }
 
 /* ── 行程卡片（列表） ── */
 .tripCard {
   display: block;
   text-decoration: none;
-  margin-bottom: 14px;
-  transition: transform .22s var(--spring), box-shadow .22s var(--ease-out);
-  animation: fadeUp .45s var(--ease-out) both;
+  margin-bottom: 22px;
+  border-radius: var(--r-md);
+  background: var(--surface-container-lowest);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 0.22s var(--spring), box-shadow 0.22s var(--ease-out);
+  animation: fadeUp 0.45s var(--ease-out) both;
 }
 
-.tripCard:active { transform: scale(.985); }
+.tripCard:active {
+  transform: scale(0.98);
+}
 
 @media (hover: hover) {
   .tripCard:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
   }
 }
 
-/* 卡片头部色块 */
-.tripCardHero {
-  height: 112px;
+.tripCardCover {
   position: relative;
+  height: 192px;
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  padding: 14px 16px;
-  /* 默认渐变 */
-  background: linear-gradient(140deg, #1A6E56 0%, #1DB996 55%, #40C4E8 100%);
+  background: var(--surface-container);
 }
 
-[data-trip-id="guangyuan-3d"] .tripCardHero {
-  background: linear-gradient(140deg, #0D5945 0%, #1DB996 45%, #40C4E8 85%, #74D7F0 100%);
-}
-[data-trip-id="demo"] .tripCardHero {
-  background: linear-gradient(140deg, #5B2F8A 0%, #9B59B6 55%, #FF6B47 100%);
+.tripCardCoverImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.tripCardHero::after {
-  content: '';
+.tripCardCoverFallback {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.22) 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 55%, var(--color-secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.tripCardHeroEmoji {
-  font-size: 40px;
-  position: absolute;
-  right: 16px;
-  top: 12px;
-  opacity: .88;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.22));
+.tripCardCoverEmoji {
+  font-size: 56px;
+  opacity: 0.92;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.2));
   animation: floatBadge 4s ease-in-out infinite;
 }
 
-.tripCardHeroTitle {
-  font-family: var(--serif);
-  font-size: 18px;
-  font-weight: 700;
-  color: white;
-  position: relative;
-  z-index: 1;
-  text-shadow: 0 1px 5px rgba(0,0,0,.3);
-  letter-spacing: -.2px;
+.tripCardBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: var(--sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tripCardBadge--upcoming {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.tripCardBadge--done {
+  background: var(--color-tertiary);
+  color: var(--color-on-tertiary);
+}
+
+.tripCardBadge--draft {
+  background: var(--surface-container-highest);
+  color: var(--on-surface-variant);
 }
 
 .tripCardBody {
-  padding: 12px 16px 14px;
+  padding: 20px 22px 22px;
+}
+
+.tripCardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
 .tripCardTitle {
-  font-family: var(--serif);
+  font-family: var(--headline);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--on-surface);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.tripCardPin {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--sans);
+}
+
+.tripCardPin .material-symbols-outlined {
+  font-size: 15px;
+}
+
+.tripCardDate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  font-weight: 500;
+}
+
+.tripCardDate .material-symbols-outlined {
   font-size: 17px;
-  font-weight: 600;
-  color: var(--text-h);
-  margin: 0 0 8px;
-  display: none; /* 已在 hero 里显示，body 里不重复 */
 }
 
 .tripMetaRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
+  margin-top: 12px;
 }
 
 .pill {
-  border: 1px solid var(--border-md);
   border-radius: 999px;
-  padding: 3px 10px;
+  padding: 4px 11px;
   font-size: 12px;
-  font-weight: 500;
-  color: var(--text);
-  background: var(--bg);
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  background: var(--surface-container-low);
   white-space: nowrap;
 }
 
 .pill.accent {
-  background: var(--accent-bg);
-  border-color: var(--accent-border);
-  color: var(--accent-dk);
-  font-weight: 600;
+  background: color-mix(in srgb, var(--color-secondary) 14%, var(--surface));
+  color: var(--color-on-secondary-container);
 }
 
 /* ════ 底部导航 ════ */
 .bottomNav {
   position: fixed;
-  left: 0; right: 0; bottom: 0;
-  height: calc(58px + env(safe-area-inset-bottom, 0px));
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: var(--glass);
-  backdrop-filter: saturate(180%) blur(24px);
-  -webkit-backdrop-filter: saturate(180%) blur(24px);
-  border-top: .5px solid var(--border);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: calc(72px + env(safe-area-inset-bottom, 0px));
+  padding: 8px 12px max(10px, env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: saturate(160%) blur(24px);
+  -webkit-backdrop-filter: saturate(160%) blur(24px);
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  box-shadow: 0 -12px 32px rgba(44, 47, 48, 0.06);
   z-index: 50;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-top: 4px;
+  max-width: 28rem;
+  margin: 0 auto;
 }
 
 .navBtn {
@@ -205,164 +429,291 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: 6px 4px;
+  gap: 4px;
+  padding: 8px 12px;
   text-decoration: none;
-  color: var(--text-lt);
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: .2px;
-  transition: color .18s var(--ease-ios), transform .18s var(--spring);
-  min-height: 46px;
+  color: var(--on-surface-variant);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    color 0.18s var(--ease-ios),
+    transform 0.2s var(--spring),
+    background 0.18s;
+  min-height: 48px;
   justify-content: center;
+  border-radius: 999px;
+  max-width: 112px;
 }
 
-.navBtn .navIcon {
-  font-size: 22px;
-  line-height: 1;
-  transition: transform .22s var(--spring);
+.navBtn .material-symbols-outlined {
+  font-size: 24px;
+  opacity: 0.85;
 }
 
-.navBtn:active { transform: scale(.88); }
+.navBtn:active {
+  transform: scale(0.95);
+}
 
 .navBtn.active {
-  color: var(--accent);
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--surface));
 }
 
-.navBtn.active .navIcon {
-  transform: scale(1.15);
+.navBtn.active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  opacity: 1;
 }
 
 /* ════ TOC 目录栏 ════ */
 .tocBar {
   position: sticky;
-  top: 52px;
+  top: 56px;
   z-index: 30;
-  background: var(--glass);
-  backdrop-filter: saturate(180%) blur(16px);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
-  border-bottom: .5px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  padding: 4px 0 10px;
+  margin: 0 -6px;
 }
-.tocBar::-webkit-scrollbar { display: none; }
+
+.tocBar::-webkit-scrollbar {
+  display: none;
+}
 
 .tocRow {
   display: flex;
   gap: 8px;
-  padding: 8px 16px 10px;
+  padding: 4px 18px 6px;
   width: max-content;
   min-width: 100%;
 }
 
 .tocBtn {
-  border: 1px solid var(--border-md);
+  border: none;
   border-radius: 999px;
-  padding: 6px 14px;
-  background: transparent;
-  color: var(--text);
+  padding: 8px 16px;
+  background: var(--surface-container-low);
+  color: var(--on-surface);
   white-space: nowrap;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--sans);
-  transition: background .15s, color .15s, border-color .15s, transform .15s var(--spring);
-  animation: slideInLeft .3s var(--ease-out) both;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.2s var(--spring);
+  animation: slideInLeft 0.3s var(--ease-out) both;
 }
 
 .tocBtn:active {
-  transform: scale(.95);
-  background: var(--accent-bg);
-  border-color: var(--accent-border);
-  color: var(--accent-dk);
+  transform: scale(0.96);
+  background: var(--surface-container-high);
+  color: var(--color-primary);
 }
 
 @media (hover: hover) {
   .tocBtn:hover {
-    background: var(--accent-bg);
-    border-color: var(--accent-border);
-    color: var(--accent-dk);
+    background: var(--surface-container-high);
+    color: var(--color-primary);
   }
 }
 
-/* ════ 详情页 header ════ */
+/* ════ 详情页 header（杂志感，非全屏色块）════ */
 .tripDetailHero {
-  background: linear-gradient(140deg, #0D5945 0%, #1DB996 45%, #40C4E8 85%);
-  padding: 22px 18px 24px;
+  padding: 8px 4px 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  background: transparent;
 }
 
-[data-trip-id="demo"] .tripDetailHero {
-  background: linear-gradient(140deg, #5B2F8A 0%, #9B59B6 55%, #FF6B47 100%);
+.tripDetailHeroTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
-.tripDetailHero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 100% 0%, rgba(255,255,255,.14) 0%, transparent 60%);
-  pointer-events: none;
+.tripDetailKicker {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-secondary);
+  margin-bottom: 6px;
+  font-family: var(--sans);
 }
 
 .tripDetailHeroTitle {
-  font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: -.4px;
+  font-family: var(--headline);
+  font-size: clamp(1.75rem, 5.5vw, 2.25rem);
+  font-weight: 800;
+  color: var(--on-surface);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   position: relative;
-  text-shadow: 0 1px 6px rgba(0,0,0,.2);
-  animation: fadeUp .4s var(--ease-out) both;
+  animation: fadeUp 0.4s var(--ease-out) both;
+  margin: 0;
 }
 
 .tripDetailHeroMeta {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  margin-top: 8px;
+}
+
+.tripDetailExportBtn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--sans);
+  box-shadow: var(--shadow-float);
+  transition: transform 0.2s var(--spring);
+}
+
+.tripDetailExportBtn:active {
+  transform: scale(0.96);
+}
+
+.tripDetailExportBtn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* 快捷统计条 */
+.tripStatsRow {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-  position: relative;
-  animation: fadeUp .4s var(--ease-out) .08s both;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 8px;
+  margin: 0 -4px;
+  scrollbar-width: none;
+}
+
+.tripStatsRow::-webkit-scrollbar {
+  display: none;
+}
+
+.tripStatChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface-container-low);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--on-surface);
+  white-space: nowrap;
+}
+
+.tripStatChip .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.tripStatChip--food .material-symbols-outlined {
+  color: var(--color-tertiary);
+}
+.tripStatChip--route .material-symbols-outlined {
+  color: var(--color-secondary);
+}
+.tripStatChip--pay .material-symbols-outlined {
+  color: var(--color-primary);
 }
 
 .tripDetailHeroPill {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(255,255,255,.2);
-  border: 1px solid rgba(255,255,255,.3);
+  gap: 6px;
+  background: var(--surface-container-low);
   border-radius: 999px;
-  padding: 4px 12px;
-  font-size: 12.5px;
+  padding: 6px 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: rgba(255,255,255,.92);
-  backdrop-filter: blur(4px);
+  color: var(--on-surface-variant);
+}
+
+/* ════ 时间轴外壳（详情页）════ */
+.tripTimelineShell {
+  position: relative;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.tripTimelineLine {
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-primary) 45%, transparent) 0%,
+    color-mix(in srgb, var(--color-secondary) 45%, transparent) 50%,
+    color-mix(in srgb, var(--color-tertiary) 45%, transparent) 100%
+  );
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 /* ════ Day 块 ════ */
 .dayBlock {
-  margin-top: 20px;
-  animation: fadeUp .4s var(--ease-out) both;
+  margin-top: 28px;
+  position: relative;
+  padding-left: 28px;
+  animation: fadeUp 0.4s var(--ease-out) both;
+}
+
+.dayBlock::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--surface);
+  z-index: 2;
 }
 
 .dayTitle {
-  font-family: var(--serif);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-lt);
-  text-transform: uppercase;
-  letter-spacing: .9px;
-  margin: 0 0 10px 2px;
+  font-family: var(--headline);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  line-height: 1.2;
 }
 
 /* ════ SectionCard ════ */
 .sectionCard {
-  margin-bottom: 10px;
-  transition: box-shadow .2s var(--ease-out);
+  margin-bottom: 14px;
+  transition: box-shadow 0.2s var(--ease-out);
 }
 
 @media (hover: hover) {
-  .sectionCard:hover { box-shadow: var(--shadow-md); }
+  .sectionCard:hover {
+    box-shadow: var(--shadow-md);
+  }
 }
 
 .sectionHeader {
@@ -370,49 +721,57 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 13px 15px;
+  padding: 16px 18px;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  transition: background .15s;
+  transition: background 0.15s;
+  border-radius: var(--r-lg);
 }
 
-.sectionHeader:active { background: rgba(0,0,0,.03); }
+.sectionHeader:active {
+  background: var(--surface-container-low);
+}
 
 .sectionHeaderTitle {
-  font-size: 15.5px;
-  font-weight: 600;
-  color: var(--text-h);
+  font-family: var(--headline);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--on-surface);
   flex: 1;
+  letter-spacing: -0.02em;
 }
 
 .sectionHeaderChevron {
-  font-size: 12px;
-  color: var(--text-lt);
+  font-size: 14px;
+  color: var(--on-surface-variant);
   font-weight: 700;
-  transition: transform .25s var(--spring), color .18s;
+  transition: transform 0.25s var(--spring), color 0.18s;
   flex-shrink: 0;
-  width: 18px;
+  width: 22px;
   text-align: center;
 }
 
 .sectionHeaderChevron.open {
   transform: rotate(90deg);
-  color: var(--accent);
+  color: var(--color-primary);
 }
 
 .sectionBody {
-  padding: 4px 15px 15px;
-  border-top: .5px solid var(--border);
-  animation: expandDown .3s var(--ease-out) both;
+  padding: 4px 18px 18px;
+  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 12%, transparent);
+  animation: expandDown 0.3s var(--ease-out) both;
   transform-origin: top center;
 }
 
 /* ════ Keywords 工具区 ════ */
 .tripToolCard {
-  padding: 14px;
-  margin-bottom: 16px;
-  animation: scaleIn .35s var(--ease-out) both;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+  animation: scaleIn 0.35s var(--ease-out) both;
+  background: var(--surface-container-low);
+  border-radius: var(--r-md);
+  box-shadow: none;
 }
 
 .noteLabel {
@@ -425,25 +784,30 @@
   font-weight: 500;
 }
 
-.noteArea, .keywordsArea {
+.noteArea,
+.keywordsArea {
   width: 100%;
-  border: 1.5px solid var(--border-md);
+  border: none;
   border-radius: var(--r-sm);
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 14px;
   font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text-h);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
   outline: none;
-  transition: border-color .15s, box-shadow .15s;
+  transition: background 0.15s, box-shadow 0.15s;
   -webkit-appearance: none;
 }
 
-.noteArea { min-height: 80px; resize: vertical; }
+.noteArea {
+  min-height: 80px;
+  resize: vertical;
+}
 
-.noteArea:focus, .keywordsArea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--jade-lt);
+.noteArea:focus,
+.keywordsArea:focus {
+  background: var(--surface-container-lowest);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 35%, transparent);
 }
 
 .actionRow {
@@ -457,23 +821,21 @@
   flex: 1 1 calc(33% - 8px);
   min-width: 90px;
   text-align: center;
-  border: 1.5px solid var(--border-md);
-  border-radius: var(--r-sm);
-  padding: 9px 12px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 12px;
   text-decoration: none;
-  color: var(--text-h);
-  background: transparent;
-  font-size: 14px;
-  font-weight: 500;
+  color: var(--on-surface);
+  background: var(--surface-container-high);
+  font-size: 12px;
+  font-weight: 700;
   font-family: var(--sans);
-  transition: background .13s, border-color .13s, transform .13s var(--spring);
+  transition: background 0.15s, transform 0.2s var(--spring);
 }
 
 .actionBtn:active {
-  transform: scale(.96);
-  background: var(--accent-bg);
-  border-color: var(--accent-border);
-  color: var(--accent-dk);
+  transform: scale(0.96);
+  background: var(--surface-container-highest);
 }
 
 /* ════ 时间轴 ════ */
@@ -505,10 +867,11 @@
 }
 
 .tlLine {
-  width: 1.5px;
+  width: 3px;
   flex: 1;
-  background: var(--border-md);
+  background: color-mix(in srgb, var(--outline-variant) 22%, transparent);
   margin: 4px 0 2px;
+  border-radius: 999px;
 }
 
 .tlTime {
@@ -524,13 +887,15 @@
 
 .tlCard {
   flex: 1;
-  background: var(--card);
-  border: .5px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 11px 13px;
-  margin-bottom: 9px;
+  background: var(--surface-container-lowest);
+  border: none;
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow .18s var(--ease-out), transform .18s var(--ease-out);
+  transition:
+    box-shadow 0.18s var(--ease-out),
+    transform 0.18s var(--ease-out);
 }
 
 @media (hover: hover) {
@@ -580,21 +945,25 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--accent);
-  color: #fff;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+  color: var(--color-on-primary);
   font-size: 12.5px;
   font-weight: 700;
-  padding: 6px 15px;
+  padding: 8px 16px;
   border-radius: 999px;
   text-decoration: none;
   white-space: nowrap;
-  min-height: 30px;
+  min-height: 32px;
   flex-shrink: 0;
   font-family: var(--sans);
-  letter-spacing: .2px;
+  letter-spacing: 0.02em;
   position: relative;
   overflow: hidden;
-  transition: opacity .12s, transform .12s var(--spring), box-shadow .12s;
+  transition:
+    opacity 0.12s,
+    transform 0.2s var(--spring),
+    box-shadow 0.12s;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-primary) 22%, transparent);
 }
 
 /* 微光扫描动效 */
@@ -618,15 +987,15 @@
 
 @media (hover: hover) {
   .mapBtn:hover {
-    box-shadow: 0 4px 14px rgba(29,185,150,.45);
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(1.02);
   }
 }
 
 .mapBtn.ghost {
-  background: var(--accent-bg);
-  color: var(--accent-dk);
-  border: 1.5px solid var(--accent-border);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  border: none;
+  box-shadow: none;
 }
 .mapBtn.ghost::before { display: none; }
 
@@ -637,11 +1006,16 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px 2px;
-  border-bottom: .5px solid var(--border);
-  animation: fadeUp .3s var(--ease-out) both;
+  padding: 14px 4px;
+  margin-bottom: 8px;
+  border-radius: var(--r-md);
+  background: var(--surface-container-lowest);
+  box-shadow: var(--shadow-sm);
+  animation: fadeUp 0.3s var(--ease-out) both;
 }
-.cardsItem:last-child { border-bottom: none; }
+.cardsItem:last-child {
+  margin-bottom: 0;
+}
 
 .cardsItemLeft { display: flex; gap: 10px; flex: 1; align-items: flex-start; }
 
@@ -924,22 +1298,23 @@
 
 /* ════ 我的页 ════ */
 .myCard {
-  padding: 16px;
-  animation: scaleIn .35s var(--ease-out) both;
+  padding: 20px 20px 22px;
+  animation: scaleIn 0.35s var(--ease-out) both;
 }
 
 .myCardTitle {
-  font-family: var(--serif);
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-family: var(--headline);
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
 }
 
 .dangerBtn {
   width: 100%;
   padding: 12px 14px;
-  border-radius: var(--r-sm);
-  border: 1.5px solid var(--border-md);
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--outline-variant) 25%, transparent);
   background: transparent;
   color: var(--coral);
   font-size: 15px;

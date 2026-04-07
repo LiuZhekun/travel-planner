@@ -10,6 +10,7 @@ const IMG = {
 const guangyuanTrip: TripConfig = {
   id: 'guangyuan-3d',
   title: '广元三天两晚',
+  cover: IMG.qianfoya,
   tags: ['四川', '古城', '栈道', '轻松游'],
   searchKeywords: ['广元', '昭化古城', '皇泽寺', '千佛崖', '明月峡'],
   // 日期用「周几」展示，不写具体日期

@@ -6,6 +6,15 @@ import { setLastViewed } from '../../storage/notes'
 import { getTripConfig } from '../../trips/registry'
 import { getTripKeywords, setTripKeywords } from '../../storage/keywords'
 import { buildTripToolJumpHrefs, ExternalJumpLink } from '../../externalLinks'
+import { countScheduleStops } from '../../trips/stats'
+
+function parseKeywords(text: string) {
+  return String(text)
+    .split(/[，,]/g)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 10)
+}
 
 export function TripDetailPage(props: { tripId: string }) {
   const { tripId } = props
@@ -25,10 +34,14 @@ export function TripDetailPage(props: { tripId: string }) {
 
   const tocItems: TocItem[] = useMemo(() => {
     if (!trip) return []
-    return trip.days.flatMap((day) =>
-      day.sections.map((sec) => ({ sectionId: sec.id, title: sec.title }))
-    )
+    return trip.days.flatMap((day) => day.sections.map((sec) => ({ sectionId: sec.id, title: sec.title })))
   }, [trip])
+
+  const stopCount = trip ? countScheduleStops(trip) : 0
+  const dayCount = trip?.days.length ?? 0
+
+  const query = useMemo(() => parseKeywords(keywordsText).join(' '), [keywordsText])
+  const urls = useMemo(() => buildTripToolJumpHrefs(query), [query])
 
   if (!trip) {
     return (
@@ -38,48 +51,88 @@ export function TripDetailPage(props: { tripId: string }) {
     )
   }
 
+  const cfg = trip
+
   function onJump(sectionId: string) {
     const el = document.getElementById(`section-${sectionId}`)
     el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setLastViewed({ tripId, sectionId })
   }
 
-  function parseKeywords(text: string) {
-    return String(text)
-      .split(/[，,]/g)
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .slice(0, 10)
-  }
-
   function saveKeywords() {
-    if (!trip) return
     const arr = parseKeywords(keywordsText)
-    if (arr.length) setTripKeywords(trip.id, arr)
+    if (arr.length) setTripKeywords(cfg.id, arr)
   }
 
-  const query = useMemo(() => parseKeywords(keywordsText).join(' '), [keywordsText])
-  const urls = useMemo(() => buildTripToolJumpHrefs(query), [query])
+  function onExportShare() {
+    const url = `${window.location.origin}${window.location.pathname}${window.location.search}#/trip/${encodeURIComponent(cfg.id)}`
+    if (navigator.share) {
+      void navigator.share({ title: cfg.title, url }).catch(() => {
+        void navigator.clipboard.writeText(url)
+      })
+    } else {
+      void navigator.clipboard.writeText(url)
+    }
+  }
+
+  const dateLine =
+    cfg.start && cfg.end ? `${cfg.start} · ${cfg.end}` : cfg.start ? cfg.start : '日程一览'
 
   return (
-    <div data-trip-id={trip.id}>
-      {/* 渐变 Hero Header */}
-      <div className="tripDetailHero">
-        <div className="tripDetailHeroTitle">{trip.title}</div>
-        <div className="tripDetailHeroMeta">
-          {trip.start && (
-            <span className="tripDetailHeroPill">
-              📅 {trip.start}{trip.end ? ` → ${trip.end}` : ''}
-            </span>
-          )}
-        </div>
-      </div>
+    <div data-trip-id={cfg.id}>
+      <div className="page" style={{ paddingTop: 4 }}>
+        <header className="tripDetailHero">
+          <div className="tripDetailHeroTop">
+            <div>
+              <span className="tripDetailKicker">进行中的冒险</span>
+              <h1 className="tripDetailHeroTitle">{cfg.title}</h1>
+              <p className="tripDetailHeroMeta">{dateLine}</p>
+            </div>
+            <button type="button" className="tripDetailExportBtn" onClick={onExportShare}>
+              <span className="material-symbols-outlined">ios_share</span>
+              分享
+            </button>
+          </div>
 
-      {/* 吸顶 TOC */}
-      <Toc items={tocItems} onJump={onJump} />
+          <div className="tripStatsRow" aria-label="行程概览">
+            <div className="tripStatChip tripStatChip--food">
+              <span className="material-symbols-outlined">restaurant</span>
+              <span>{stopCount} 站点</span>
+            </div>
+            <div className="tripStatChip tripStatChip--route">
+              <span className="material-symbols-outlined">calendar_view_week</span>
+              <span>{dayCount} 天</span>
+            </div>
+            <div className="tripStatChip tripStatChip--pay">
+              <span className="material-symbols-outlined">edit_note</span>
+              <span>离线备注</span>
+            </div>
+          </div>
 
-      <div className="page">
-        {/* 关键词工具卡 */}
+          <div className="portalScroller" style={{ paddingTop: 4 }}>
+            <ExternalJumpLink className="portalChip" href={urls.map}>
+              <span className="portalChipIcon portalChipIcon--map">
+                <span className="material-symbols-outlined">map</span>
+              </span>
+              <span>高德</span>
+            </ExternalJumpLink>
+            <ExternalJumpLink className="portalChip" href={urls.xhs}>
+              <span className="portalChipIcon portalChipIcon--xhs">
+                <span className="material-symbols-outlined">favorite</span>
+              </span>
+              <span>小红书</span>
+            </ExternalJumpLink>
+            <ExternalJumpLink className="portalChip" href={urls.douyin}>
+              <span className="portalChipIcon portalChipIcon--douyin">
+                <span className="material-symbols-outlined">bolt</span>
+              </span>
+              <span>抖音</span>
+            </ExternalJumpLink>
+          </div>
+        </header>
+
+        <Toc items={tocItems} onJump={onJump} />
+
         <div className="card tripToolCard">
           <div className="noteLabel" style={{ marginTop: 0 }}>
             <span>地图 / 小红书 / 抖音跳转关键词</span>
@@ -94,30 +147,28 @@ export function TripDetailPage(props: { tripId: string }) {
           />
           <div className="actionRow">
             <ExternalJumpLink className="actionBtn" href={urls.map}>
-              🗺 地图
+              地图
             </ExternalJumpLink>
             <ExternalJumpLink className="actionBtn" href={urls.xhs}>
-              📕 小红书
+              小红书
             </ExternalJumpLink>
             <ExternalJumpLink className="actionBtn" href={urls.douyin}>
-              🎵 抖音
+              抖音
             </ExternalJumpLink>
           </div>
         </div>
 
-        {/* 按天渲染 */}
-        {trip.days.map((day, di) => (
-          <section
-            key={day.id}
-            className="dayBlock"
-            style={{ animationDelay: `${di * 0.07}s` }}
-          >
-            <h2 className="dayTitle">{day.title}</h2>
-            {day.sections.map((sec) => (
-              <SectionCard key={sec.id} tripId={trip.id} section={sec} />
-            ))}
-          </section>
-        ))}
+        <div className="tripTimelineShell">
+          <div className="tripTimelineLine" aria-hidden />
+          {cfg.days.map((day, di) => (
+            <section key={day.id} className="dayBlock" style={{ animationDelay: `${di * 0.06}s` }}>
+              <h2 className="dayTitle">{day.title}</h2>
+              {day.sections.map((sec) => (
+                <SectionCard key={sec.id} tripId={cfg.id} section={sec} />
+              ))}
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   )
